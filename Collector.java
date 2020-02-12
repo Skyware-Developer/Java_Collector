@@ -9,17 +9,36 @@ import java.util.ArrayList;
 
 public class Collector {
 
-    // URL Where we get the data
-    // String route =
-    // "https://siata.gov.co/DatosRedAire/txtRedAire/Datos_Red_de_Calidad_del_Aire_81_PM2.5.txt";
-    // This is the number of the station from which we get the data
-    // String orden[] = new String[] { "81", "3", "82", "87", "86", "85", "25",
-    // "80", "94", "83", "79", "84", "44",
-    // "28", "88", "38", "78", "90", "79" };
+    /**
+     * Para implementación.
+     * Insertar las siguientes dos líneas después del OnCreate
+     * StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+     * StrictMode.setThreadPolicy(policy);
+     *
+     * try {
+     *  Collector data = new Collector();
+     *  Float[] array = data.getPromedio();
+     * } catch (IOException e) {
+     *  e.printStackTrace();
+     * }
+     *
+     * Recordar que se deben de pedir permisos para navegar en internet
+     * https://java2blog.com/add-internet-permission-in-androidmanifest-android-studio/
+     *
+     */
+    String route = "https://siata.gov.co/DatosRedAire/txtRedAire/Datos_Red_de_Calidad_del_Aire_81_PM2.5.txt";
+    String orden[] = new String[]{"81", "3", "82", "87", "86", "85", "25", "80", "94", "83", "79", "84", "44",
+            "28", "88", "38", "78", "90", "79"};
+    Float[] promedio;
+    public Collector() throws IOException{
+        promedio = promedio(route, orden);
+    }
 
-    public double promedio(String route, String orden[]) throws IOException {
-        double promedio = 0;
-
+    public Float[] getPromedio(){
+        return  promedio;
+    }
+    public Float[] promedio(String route, String orden[]) throws IOException {
+        Float promArray[] = new Float[orden.length];
         for (int k = 0; k <= orden.length; k++) {
             URL url = new URL(route);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -43,7 +62,7 @@ public class Collector {
                 acum += number;
             }
             System.out.println(acum / arrayList.size());
-            promedio = acum / arrayList.size();
+            promArray[k] = acum / arrayList.size();
 
             if (k != orden.length - 1) {
                 route = route.replace(orden[k], orden[k + 1]);
@@ -51,7 +70,6 @@ public class Collector {
 
         }
 
-        return promedio;
+        return promArray;
     }
-
 }
