@@ -39,7 +39,7 @@ public class Collector {
     }
     public Float[] promedio(String route, String orden[]) throws IOException {
         Float promArray[] = new Float[orden.length];
-        for (int k = 0; k <= orden.length; k++) {
+        for (int k = 0; k < orden.length; k++) {
             URL url = new URL(route);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
